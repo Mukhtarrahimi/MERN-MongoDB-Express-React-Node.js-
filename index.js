@@ -5,14 +5,15 @@ const app = express();
 dotenv.config();
 
 // database
-import connectDb from './config/db.js';
+import { connectDB } from './config/db.js';
+
 app.use(express.json());
 app.use(morgan('dev'));
 
 // server running
 const startServer = async () => {
   try {
-    await connectDb();
+    await connectDB();
     const PORT = process.env.PORT || 3000;
     app.listen(PORT, () => {
       console.log(`server runnging on port ${PORT}`);
