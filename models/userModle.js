@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-export const userSchema = mongoose.Schema({
+const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'name is required'],
@@ -10,11 +10,13 @@ export const userSchema = mongoose.Schema({
     type: String,
     required: [true, 'email is required'],
     trim: true,
-    match: 'A-Za-z0-9#$',
+    match: [/^\S+@\S+\.\S+$/, 'invalid email format'],
   },
   address: {
     type: String,
     required: [true, 'address is required'],
-    default: 'Kabul - Afghanstan',
+    default: 'Kabul - Afghanistan',
   },
 });
+
+export default mongoose.model('User', userSchema);
