@@ -1,7 +1,7 @@
 import User from '../models/userModel.js';
 
 // CREATE USER
-export const create = async (req, res) => {
+export const createUser = async (req, res) => {
   try {
     const { name, email, address } = req.body;
 
@@ -35,6 +35,30 @@ export const create = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: 'Server error',
+      error: err.message,
+    });
+  }
+};
+
+// GET ALL USERS
+export const getAllUser = async (req, res) => {
+  try {
+    const users = await User.find();
+    if (!users || users.length === 0) {
+      return res.status(404).send({
+        success: false,
+        message: 'User Not Found',
+      });
+    }
+    res.status(201).send({
+      success: true,
+      users,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({
+      success: false,
+      message: 'Error in Get All User API',
       error: err.message,
     });
   }
