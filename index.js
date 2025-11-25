@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 // User Route
-app.use('/api/user', userRoute);
+app.use('/api/users', userRoute);
 
 // Server Running
 const startServer = async () => {
