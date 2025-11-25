@@ -4,13 +4,18 @@ import morgan from 'morgan';
 const app = express();
 dotenv.config();
 
-// database
+// Database
 import { connectDB } from './config/db.js';
+// User Route Import
+import usreRoute from './routes/userRoute.js';
 
 app.use(express.json());
 app.use(morgan('dev'));
 
-// server running
+// User Route
+app.use('/api/user', usreRoute);
+
+// Server Running
 const startServer = async () => {
   try {
     await connectDB();
