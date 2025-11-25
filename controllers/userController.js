@@ -1,35 +1,40 @@
-import { error } from 'console';
-import User from '../models/userModle.js';
+import User from '../models/userModel.js';
 
-// CREATE
+// CREATE USER
 export const create = async (req, res) => {
   try {
     const { name, email, address } = req.body;
-    // validation
+
+    // VALIDATION
     if (!name || !email || !address) {
-      return res.status(401).send({
+      return res.status(400).json({
         success: false,
-        message: 'All Failed are required',
+        message: 'All fields are required',
       });
     }
-    // cheak exist
+
+    // CHECK IF USER EXISTS
     const exist = await User.findOne({ email });
     if (exist) {
-      return res.status(400).send({
+      return res.status(409).json({
         success: false,
-        message: 'User Already Exist',
+        message: 'User already exists',
       });
     }
-    const user = await User.create({
-      name,
-      email,
-      address,
+
+    // CREATE USER
+    const user = await User.create({ name, email, address });
+
+    return res.status(201).json({
+      success: true,
+      message: 'User created successfully',
+      user,
     });
   } catch (err) {
-    console.log(err);
-    res.status(500).send({
+    console.error(err);
+    return res.status(500).json({
       success: false,
-      message: 'Error in create API',
+      message: 'Server error',
       error: err.message,
     });
   }
