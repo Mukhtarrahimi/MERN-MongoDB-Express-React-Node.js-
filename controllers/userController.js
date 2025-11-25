@@ -63,3 +63,28 @@ export const getAllUser = async (req, res) => {
     });
   }
 };
+
+// GET USER BY ID
+export const getUser = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).send({
+        success: false,
+        message: 'User Not Found',
+      });
+    }
+    res.status(201).send({
+      success: true,
+      user,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({
+      success: false,
+      message: 'Error in get user by Id API',
+      error: err.message,
+    });
+  }
+};
