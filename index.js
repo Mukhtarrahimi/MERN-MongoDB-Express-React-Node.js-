@@ -6,14 +6,16 @@ dotenv.config();
 
 // Database
 import { connectDB } from './config/db.js';
-// User Route Import
-import usreRoute from './routes/userRoute.js';
 
+// User Route Import
+import userRoute from './routes/userRoute.js';
+
+// Middleware
 app.use(express.json());
 app.use(morgan('dev'));
 
 // User Route
-app.use('/api/user', usreRoute);
+app.use('/api/user', userRoute);
 
 // Server Running
 const startServer = async () => {
@@ -21,11 +23,11 @@ const startServer = async () => {
     await connectDB();
     const PORT = process.env.PORT || 3000;
     app.listen(PORT, () => {
-      console.log(`server runnging on port ${PORT}`);
+      console.log(`Server running on port ${PORT}`);
     });
   } catch (err) {
-    console.log(`Failed to start server ${err.message}`);
-    process.exit();
+    console.log(`Failed to start server: ${err.message}`);
+    process.exit(1);
   }
 };
 
