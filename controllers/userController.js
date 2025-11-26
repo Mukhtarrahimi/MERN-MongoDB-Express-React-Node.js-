@@ -88,3 +88,26 @@ export const getUser = async (req, res) => {
     });
   }
 };
+
+// UPDATE USER
+const updateUser = async (req, res) => {
+  try {
+    const { name, email, address } = req.body;
+    const updateUser = await User.findByIdAndUpdate({
+      name,
+      email,
+      address,
+    });
+    res.status(201).send({
+      success: true,
+      updateUser,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({
+      success: false,
+      message: 'Error in Update User API',
+      error: err.message,
+    });
+  }
+};
