@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import "./adduser.css";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import toast from "react-hot-toast";
+import React, { useState } from 'react';
+import './adduser.css';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const AddUser = () => {
   const users = {
-    name: "",
-    email: "",
-    address: "",
+    name: '',
+    email: '',
+    address: '',
   };
   const [user, setUser] = useState(users);
   const navigate = useNavigate();
@@ -23,10 +23,10 @@ const AddUser = () => {
   const submitForm = async (e) => {
     e.preventDefault();
     await axios
-      .post("http://localhost:8000/api/user", user)
+      .post('http://localhost:5500/api/users', user)
       .then((response) => {
-        toast.success(response.data.message, { position: "top-right" });
-        navigate("/");
+        toast.success(response.data.message, { position: 'top-right' });
+        navigate('/');
       })
       .catch((error) => {
         console.log(error);
