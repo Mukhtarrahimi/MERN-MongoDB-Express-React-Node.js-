@@ -90,21 +90,35 @@ export const getUser = async (req, res) => {
 };
 
 // UPDATE USER
-const updateUser = async (req, res) => {
+export const updateUser = async (req, res) => {
   try {
+    const userId = req.params.id; // گرفتن ID از URL
     const { name, email, address } = req.body;
-    const updateUser = await User.findByIdAndUpdate({
-      name,
-      email,
-      address,
-    });
-    res.status(201).send({
+
+    // بررسی وجود کاربر
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+      });
+    }
+
+    // آپدیت کاربر
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { name, email, address },
+      { new: true, runValidators: true } // بازگشت داده جدید و ولیدیشن
+    );
+
+    return res.status(200).json({
       success: true,
-      updateUser,
+      message: 'User updated successfully',
+      user: updatedUser,
     });
   } catch (err) {
-    console.log(err);
-    res.status(500).send({
+    console.error(err);
+    return res.status(500).json({
       success: false,
       message: 'Error in Update User API',
       error: err.message,
